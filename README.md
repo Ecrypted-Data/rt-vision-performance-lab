@@ -31,3 +31,21 @@ diff -u runs/before/stats.json runs/after/stats.json
 先在 GitHub 上 Fork 本仓库，在自己的 Fork 里创建工作分支。完成后从该分支向原仓库的 `main` 发起 PR，并将 PR 链接填入飞书问卷。组长在 PR 中验收和反馈，验收后关闭 PR。
 
 即使决定放弃优化，也把实验改动留在 PR 分支上，方便组长核对改动。优化前后计时、输出比较和是否采用的理由按飞书问卷中的题目提交。
+
+## 本次单项优化及实际结果
+
+仅将 threshold 的逐像素 Python 循环改为 NumPy 布尔索引，保持 `>= cutoff`、掩膜类型与其他环节不变。
+
+同一固定1280×720输入、同一设备、每轮预热1次并测15次：
+
+| 环节 | 基线中位数/ms | 优化后中位数/ms |
+|---|---:|---:|
+| load | 8.214 | 8.074 |
+| grayscale | 0.135 | 0.090 |
+| threshold | 82.672 | 1.894 |
+| write | 5.307 | 5.267 |
+| total | 96.306 | 15.316 |
+
+前后掩膜逐像素完全一致，统计 JSON 字节一致；选中像素327335，掩膜 SHA-256 为 f070746bf561d156610d381f80e4c5d2fb5a4a5f533fd0253031c1f1e8f2e909。总中位耗时约加速6.29倍，决定保留该改动。
+
+`python -m unittest discover -s tests -v`：3项语义回归测试通过。完整实验条件、原始计时、输出核对与限制见 [验收记录](docs/verification.md) 和 docs/evidence/。
