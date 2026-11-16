@@ -11,12 +11,10 @@ STAGES = ("load", "grayscale", "threshold", "write")
 
 def threshold(gray: np.ndarray, cutoff: int = 160) -> np.ndarray:
     """Set pixels of intensity at least cutoff to 255 and all others to zero."""
-    height, width = gray.shape
-    mask = np.zeros_like(gray)
-    for y in range(height):
-        for x in range(width):
-            if int(gray[y, x]) >= cutoff:
-                mask[y, x] = 255
+    # 唯一改动：用 cv2.threshold 向量化操作替换纯 Python 双重逐像素循环。
+    # THRESH_BINARY 语义为 src > thresh 时取 maxval，故传 cutoff-1，
+    # 以严格保持原实现「intensity >= cutoff」的边界行为，输出逐像素一致。
+    _, mask = cv2.threshold(gray, cutoff - 1, 255, cv2.THRESH_BINARY)
     return mask
 
 
