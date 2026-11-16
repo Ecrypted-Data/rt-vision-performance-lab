@@ -1,0 +1,39 @@
+{
+  "date": "2026-11-16",
+  "baseline_commit": "bceb0ded3720fe064302547aaa76d2ef77a24309",
+  "python": "3.12.15",
+  "numpy": "2.2.6",
+  "opencv": "4.11.0",
+  "os": "Linux-7.0.0-43-generic-x86_64-with-glibc2.43",
+  "cpu": "AMD Ryzen 9 8940HX with Radeon Graphics",
+  "input_sha256": "712da5a8c55d860067d103c438bae12996d41492d146b4b50d919d1271c4a6eb",
+  "warmup": 1,
+  "repeat": 15,
+  "units": "ms",
+  "median": {
+    "before": {
+      "load": 8.214,
+      "grayscale": 0.135,
+      "threshold": 82.672,
+      "write": 5.307,
+      "total": 96.306
+    },
+    "after": {
+      "load": 8.074,
+      "grayscale": 0.09,
+      "threshold": 1.894,
+      "write": 5.267,
+      "total": 15.316
+    }
+  },
+  "threshold_speedup": 43.649419218585,
+  "total_speedup": 6.287934186471663,
+  "pixels_identical": true,
+  "stats_identical": true,
+  "stats": {
+    "width": 1280,
+    "height": 720,
+    "selected_pixels": 327335,
+    "mask_pixels_sha256": "f070746bf561d156610d381f80e4c5d2fb5a4a5f533fd0253031c1f1e8f2e909"
+  }
+}
