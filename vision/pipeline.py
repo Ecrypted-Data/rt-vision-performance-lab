@@ -11,13 +11,7 @@ STAGES = ("load", "grayscale", "threshold", "write")
 
 def threshold(gray: np.ndarray, cutoff: int = 160) -> np.ndarray:
     """Set pixels of intensity at least cutoff to 255 and all others to zero."""
-    height, width = gray.shape
-    mask = np.zeros_like(gray)
-    for y in range(height):
-        for x in range(width):
-            if int(gray[y, x]) >= cutoff:
-                mask[y, x] = 255
-    return mask
+    return cv2.compare(gray, cutoff, cv2.CMP_GE)
 
 
 def write_results(mask: np.ndarray, directory: Path) -> None:
